@@ -1,3 +1,6 @@
+/* Code to add node ath the end of the list */
+/* Author: Mehul Shah */
+
 #include <stdio.h>
 #include <stdlib.h>
 
