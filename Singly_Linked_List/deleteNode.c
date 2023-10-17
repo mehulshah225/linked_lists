@@ -9,8 +9,6 @@ typedef struct node{
     struct node* next;
 }node_t;
 
-node_t* head = NULL;
-
 node_t* createNode(int data){
     node_t* newNode = (node_t*)malloc(sizeof(node_t));
     if(newNode == NULL)
@@ -22,19 +20,18 @@ node_t* createNode(int data){
     return newNode;
 }
 
-void insertNode(int data){
+void insertNode(node_t**head, int data){
     node_t* new = createNode(data);
-    node_t* current = head;
     if(new == NULL)
         printf("Malloc failed");
 
-    new->next = current;
-    head = new;
+    new->next = *head;
+    *head = new;
 }
 
-void deleteNode(int data) {
-    node_t* current = head;
-    node_t* previous = head;
+void deleteNode(node_t**head, int data) {
+    node_t* current = *head;
+    node_t* previous = NULL;
 
     if (current == NULL) {
         return; // List is empty, nothing to delete.
@@ -42,7 +39,7 @@ void deleteNode(int data) {
 
     if (current->data == data) {
         // If the node to delete is the head, update the head.
-        head = current->next;
+        *head = current->next;
         free(current);
         return;
     }
@@ -60,7 +57,7 @@ void deleteNode(int data) {
     }
 }
 
-void displayList(){
+void displayList(node_t* head){
     node_t* current = head;
 
     while(current != NULL){
@@ -71,13 +68,14 @@ void displayList(){
 }
 
 int main(void){
+    node_t* head = NULL;
+    
+    insertNode(&head,4);
+    insertNode(&head,6);
 
-    insertNode(4);
-    insertNode(6);
+    displayList(head);
 
-    displayList();
-
-    deleteNode(4);
-    displayList();
+    deleteNode(&head,4);
+    displayList(head);
     return 0;
 }
